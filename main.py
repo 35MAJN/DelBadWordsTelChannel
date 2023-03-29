@@ -7,22 +7,45 @@ token = input("Enter Your Bot's token:\n")
 bot = telebot.TeleBot(token)
 
 
-def filter_and_create_entities(text):
+def detect_bad_words(text):
+    """
+    Detects bad words in the given text and returns the list of spoiler message entities for those words along with a boolean value indicating if any bad words were found.
+
+    Parameters:
+        text (str): The text in which to search for bad words.
+        
+    Returns:
+        Tuple[List[telebot.types.MessageEntity], bool]: A tuple containing the list of spoiler message entities for bad words in the text and a boolean value indicating if any bad words were found.
+        
+    Example:
+        text = "I can't believe he said that! Fuc*"
+        Entities, has_bad_word = detect_bad_words(text)
+        has_bad_word
+        True
+        Entities
+        [telebot.types.MessageEntity(type='spoiler', offset=30, length=4)]
+
+    """
     tokenized = word_tokenize(normalizer.normalize(text).replace('\u200c', ' '))
     Entities = []
+    has_bad_word = False
+    for word in tokenized:
+        for badword in words:
+            if badword in word and word != 'کسی':
+                has_bad_word = True
+                Entities.append(telebot.types.MessageEntity(type='spoiler', offset=text.find(word), length=len(word)))
+    return Entities, has_bad_word
     
 
 
 @bot.message_handler(func=lambda message: True)
 def check_bad_words(message):
     text = message.text
-    for bad
-    if sansorchi.is_bad_word(text):
-        #print(text)
+    Entities, has_bad_word= detect_bad_words(text)
+    if has_bad_word:
         try:
             bot.delete_message(message.chat.id, message.message_id)
-            spoiler_text = telebot.types.MessageEntity(type='spoiler', offset=0, length=len(text))
-            bot.send_message(message.chat.id,text, entities=[spoiler_text])
+            bot.send_message(message.chat.id,text, entities=Entities)
         except Exception as er:
             print(er)
 
@@ -30,10 +53,10 @@ def check_bad_words(message):
 @bot.channel_post_handler (func=lambda message: True)
 def check_bad_words(message):
     text = message.text
-    if sansorchi.is_bad_word(text):
-        print(message)
+    Entities, has_bad_word= detect_bad_words(text)
+    if has_bad_word:
         try:
-            bot.delete_message(message.chat.id, message.message_id)
+            bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text=text, entities=Entities)
         except Exception as er:
             print(er)
 
