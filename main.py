@@ -1,6 +1,7 @@
 import telebot
 from words import words
 from hazm import Normalizer, word_tokenize
+import re
 import itertools
 normalizer = Normalizer()
 # Replace YOUR_TELEGRAM_BOT_TOKEN with your actual bot token
@@ -27,7 +28,7 @@ def detect_bad_words(text):
         [telebot.types.MessageEntity(type='spoiler', offset=30, length=4)]
 
     """
-    tokenized = word_tokenize(normalizer.normalize(text).replace('\u200c', ' '))
+    tokenized = word_tokenize(re.sub(r'[^\w]', ' ', normalizer.normalize(text).replace('\u200c', ' ')))
     Entities = []
     has_bad_word = False
     for word in tokenized:
