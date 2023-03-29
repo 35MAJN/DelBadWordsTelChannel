@@ -16,6 +16,18 @@ def check_bad_words(message):
         except Exception as er:
             print(er)
 
+
+@bot.channel_post_handler (func=lambda message: True)
+def check_bad_words(message):
+    text = message.text
+    if sansorchi.is_bad_word(text):
+        print(text)
+        try:
+            bot.delete_message(message.chat.id, message.message_id)
+        except Exception as er:
+            print(er)
+
+
 if __name__=='__main__':
     print('Bot started...')
     bot.polling()
