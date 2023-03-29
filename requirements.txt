@@ -1,3 +1,2 @@
 hazm
 pyTelegramBotAPI
-sansorchi
