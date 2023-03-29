@@ -5,7 +5,6 @@ This Python code provides a Telegram bot that can be used to filter out messages
  - Python 3.6 or higher
  - Telegram Bot API token
  - telebot library
- - sansorchi library
  - hazm library
  
 ## Installation
