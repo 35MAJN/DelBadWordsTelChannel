@@ -10,7 +10,7 @@ This Python code provides a Telegram bot that can be used to filter out messages
  - Clone the repository or download the code.
  - Install the required libraries using pip install -r requirements.txt.
  - Replace YOUR_TELEGRAM_BOT_TOKEN with your actual bot token in the bot instantiation.
- - Run the script using python bot.py.
+ - Run the script using python main.py.
  - Enter your Telegram token when prompted.
 
 
