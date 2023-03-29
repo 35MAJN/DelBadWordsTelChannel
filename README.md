@@ -9,8 +9,7 @@ This Python code provides a Telegram bot that can be used to filter out messages
  - hazm library
  
 ## Installation
- - Clone the repository or download the code.
- - First install Hazm library using ```pip install hazm```. 
+ - Clone the repository or download the code. 
  - Install the required libraries using ```pip install -r requirements.txt```.
  - Replace YOUR_TELEGRAM_BOT_TOKEN with your actual bot token in the bot instantiation.
  - Run the script using python main.py.
