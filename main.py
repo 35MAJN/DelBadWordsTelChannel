@@ -10,7 +10,7 @@ bot = telebot.TeleBot(token)
 def check_bad_words(message):
     text = message.text
     if sansorchi.is_bad_word(text):
-        print(text)
+        print(message)
         try:
             bot.delete_message(message.chat.id, message.message_id)
         except Exception as er:
@@ -21,7 +21,7 @@ def check_bad_words(message):
 def check_bad_words(message):
     text = message.text
     if sansorchi.is_bad_word(text):
-        print(text)
+        print(message)
         try:
             bot.delete_message(message.chat.id, message.message_id)
         except Exception as er:
