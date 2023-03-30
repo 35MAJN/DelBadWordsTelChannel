@@ -29,28 +29,40 @@ def detect_bad_words(text):
 
     """
     tokenized = word_tokenize(re.sub(r'[^\w]', ' ', normalizer.normalize(text).replace('\u200c', ' ')))
+    clean_text = re.sub(r'[^\w]', ' ', text.replace('\u200c', ' '))
     Entities = []
     has_bad_word = False
+    has_holly_word = False
     for word in tokenized:
         _word = ''.join(ch for ch, _ in itertools.groupby(word))
         for badword in words:
             if badword in _word or _word in exactbadwords:
                 has_bad_word = True
                 Entities.append(telebot.types.MessageEntity(type='spoiler', offset=text.find(word), length=len(word)))
-    return Entities, has_bad_word
+    
+    for holly_word in hollywords:
+        if holly_word in clean_text:
+            has_holly_word = True
+    return Entities, has_bad_word, has_holly_word
     
 
 
 @bot.message_handler(func=lambda message: True)
 def check_bad_words(message):
     text = message.text
-    Entities, has_bad_word= detect_bad_words(text)
+    Entities, has_bad_word, has_holly_word= detect_bad_words(text)
     if has_bad_word:
-        try:
-            bot.delete_message(message.chat.id, message.message_id)
-            bot.send_message(message.chat.id,text, entities=Entities)
-        except Exception as er:
-            print(er)
+        if has_holly_word:
+            try:
+                bot.delete_message(message.chat.id, message.message_id)
+            except Exception as er:
+                print(er)
+        else:
+            try:
+                bot.delete_message(message.chat.id, message.message_id)
+                bot.send_message(message.chat.id,text, entities=Entities)
+            except Exception as er:
+                print(er)
 
 
 @bot.channel_post_handler (func=lambda message: True)
@@ -58,10 +70,16 @@ def check_bad_words(message):
     text = message.text
     Entities, has_bad_word= detect_bad_words(text)
     if has_bad_word:
-        try:
-            bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text=text, entities=Entities)
-        except Exception as er:
-            print(er)
+        if has_holly_word:
+            try:
+                bot.delete_message(message.chat.id, message.message_id)
+            except Exception as er:
+                print(er)
+        else:
+            try:
+                bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text=text, entities=Entities)
+            except Exception as er:
+                print(er)
 
 
 if __name__=='__main__':
