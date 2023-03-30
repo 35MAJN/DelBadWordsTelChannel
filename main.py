@@ -68,7 +68,7 @@ def check_bad_words(message):
 @bot.channel_post_handler (func=lambda message: True)
 def check_bad_words(message):
     text = message.text
-    Entities, has_bad_word= detect_bad_words(text)
+    Entities, has_bad_word, has_holly_word= detect_bad_words(text)
     if has_bad_word:
         if has_holly_word:
             try:
