@@ -84,4 +84,9 @@ def check_bad_words(message):
 
 if __name__=='__main__':
     print('Bot started...')
-    bot.polling()
+    while True:
+        try:
+            bot.polling()
+        except Exception as er:
+                print(er)
+            
