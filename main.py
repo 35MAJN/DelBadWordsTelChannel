@@ -3,9 +3,24 @@ from words import *
 from hazm import Normalizer, word_tokenize
 import re
 import itertools
+import argparse
+
+# create a new ArgumentParser
+parser = argparse.ArgumentParser()
+
+# add the argument
+parser.add_argument('-i', '--input', help='TOKEN')
+
+# parse the arguments
+args = parser.parse_args()
+
+
 normalizer = Normalizer()
 # Replace YOUR_TELEGRAM_BOT_TOKEN with your actual bot token
-token = input("Enter Your Bot's token:\n")
+if args.input:
+    token = args.input
+else:
+    token = input("Enter Your Bot's token:\n")
 bot = telebot.TeleBot(token)
 
 
