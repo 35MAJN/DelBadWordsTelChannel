@@ -18,10 +18,21 @@ This Python code provides a Telegram bot that can be used to filter out messages
 
 ## Usage
  To run the script, navigate to the directory where it is located and execute the following command:
-```python script_name.py -i YOUR_TELEGRAM_BOT_TOKEN```
+```python main.py -i YOUR_TELEGRAM_BOT_TOKEN```
 Or you can run the script without -i argument and the script will ask for the token.
 
 The bot will start running and will monitor all incoming messages in the chat or channel that it has been added to. If it detects any bad words, it will delete the message and replace the bad word with a spoiler message entity. If the message contains both bad words and holy words it will not delete the message but instead delete the message silently so the user can not recognize it was deleted.
+
+
+## Functionality
+The script includes the following functionality:
+
+ - Detects bad words in a given message.
+ - Deletes the message if it contains bad words.
+ - Replaces the bad word with a spoiler message entity.
+ - Checks if the message contains any holy words and does not delete the message if it does.
+ - Works for both messages in a chat and posts in a channel.
+
 
 ## Notes
  - This code is designed to filter out bad words in Persian only. If you want to filter out bad words in other languages, you may need to use a different library or modify the code to suit your needs.
